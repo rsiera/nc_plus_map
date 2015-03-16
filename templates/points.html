@@ -1,0 +1,62 @@
+<div id="dcontents-container">
+    {%- for state_id, city_dict in states.items() -%}
+    <div class="dcontents hide" style="overflow: hidden;">
+        <h2 style="margin-left: 1px;">{{ state_id.1 }}</h2>
+
+        <div class="cities-list">
+            <div id="{{ state_id.0 }}-item">
+                <div class="cities-list">
+                    {% set count = city_dict.keys()|length / 4|round(0, 'ceil') %}
+                    {%- for k in city_dict.keys()|sort|batch(count|int) -%}
+                    <ul class="col">
+                        {%- for col in k -%}
+                        <li>
+                            <a href="#" id="{{ col.1 }}">{{ col.0 }}</a>
+                        </li>
+                        {%- endfor -%}
+                    </ul>
+                    {%- endfor -%}
+                    <br class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div id="dpoints-container">
+    {%- for dict_per_city in states.values() -%}
+    {%- for k,v in dict_per_city.items() -%}
+    <div class="dpoints hide" style="overflow: hidden;">
+        <div class="points-list {{ k.1 }}-item">
+            <h2>{{ k.0 }}</h2>
+
+            <p class="under-header">lista punktów handlowych</p>
+            {% set count = v|length / 2|round(0, 'ceil') %}
+            {%- for col in v|sort|batch(count|int) %}
+            <div class="col">
+                {%- for point in col -%}
+                <div class="point-item">
+                    <h4>{{ point.nom }}</h4>
+
+                    <p class="address">{{ point.ulica }}<br>{{ point.kod }}</p>
+                    {%- if point.telefon -%}
+                    <p class="phone">{{ point.telefon }}</p>
+                    {%- endif -%}
+                    {% if point.sprzedaz %}
+                    <img src="images/tnk/aps_punkt_tnk.png" alt="1">
+                    <img src="images/tnk/aps_punkt_tnkhd.png" alt="4">
+                    {% endif %}
+                    {%- if point.doladowanie -%}
+                    <img src="images/tnk/aps_punkt_doladowan.png" alt="1">
+                    {%- endif -%}
+                </div>
+                {%- endfor -%}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+</div>
